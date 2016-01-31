@@ -1,0 +1,67 @@
+<html lang="en">
+    <head>
+        <% include ../../parts/head %>
+    </head>
+    <body class="container">
+
+    <header>
+    <% include ../../parts/header %>
+    </header>
+
+        <div class="container">
+            <h3>View Competition Registrations</h3>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <% if(notif){if(err) { %>
+                    <div class="alert alert-danger">
+                        <%= err.toString() %>
+                    </div>
+                    <% } else { %>
+                    <div class="alert alert-success">
+                        Successfully Added!
+                    </div>
+                    <% }} %>
+                </div>
+                <div class="col-lg-4 col-lg-offset-4">
+
+                    <div class="form-group">
+                        <label for="user">Select Compi:</label>
+                        <select class="form-control" id="compi" name="compi">
+                            <% rows.forEach(function(row){ %>
+                                <option value='<%= row.id %>'> <%= row.name %> </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-lg-offset-1" id="list_container">
+
+
+                </div>
+            </div>
+        </div>
+
+        <script typ="text/javascript">
+            $('#compi').change(function(){
+                    console.log("compi changed"+$(this).val());
+
+                    $.ajax({
+                        dataType:'text',
+                        url:'/compi/reg/list',
+                        data:{compi:$(this).val()},
+                        success: function(data){
+                                console.log(data);
+                               $('#list_container').html(data); 
+                           }});
+                    });
+            $('#compi').trigger('change');
+        </script>
+
+    <footer>
+    <% include ../../parts/footer %>
+    </footer>
+
+    </body>
+</html>
+
+

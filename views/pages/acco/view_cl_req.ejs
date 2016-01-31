@@ -1,0 +1,74 @@
+<html lang="en">
+    <head>
+        <% include ../../parts/head %>
+
+        <script type='text/javascript'>
+            function loadCollegeOptions(ret){
+                $('#college').empty();
+                if(ret.error)
+                    document.alert(ret.message);
+                else
+                    $.each(ret.data, function(i, val){
+                        $('#college').append($('<option/>',{ value: val.id, text: val.name }));
+                    });
+                $('#college').trigger('change');
+            }
+        </script>
+    </head>
+    <body class="container">
+
+    <header>
+    <% include ../../parts/header %>
+    </header>
+
+        <div class="container">
+            <h3>View CL Acco Request</h3>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <% if(notif){if(err) { %>
+                    <div class="alert alert-danger">
+                        <%= err.toString() %>
+                    </div>
+                    <% } else { %>
+                    <div class="alert alert-success">
+                        Successful!
+                    </div>
+                    <% }} %>
+                </div>
+                <div class="col-lg-4 col-lg-offset-4">
+                    <div class="form-group">
+                        <label for='college'>Select college:</label>
+                        <select class='form-control' id='college' name='college'>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-lg-offset-1" id="list_container">
+                </div>
+            </div>
+        </div>
+
+
+        <script type='text/javascript'>
+            $('#college').change(function(){
+                        var college_id = $('#college').val();
+                        $.ajax({
+                            dataType:'text',
+                            url:'./list_cl',
+                            data:{college:college_id},
+                            success: function(data){
+                                $('#list_container').html(data);
+                            }
+                        });
+                    });
+        </script>
+        <script src="/api/college?callback=loadCollegeOptions"></script>
+
+    <footer>
+    <% include ../../parts/footer %>
+    </footer>
+
+    </body>
+</html>
+
+

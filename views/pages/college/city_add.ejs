@@ -1,0 +1,44 @@
+<html lang="en">
+    <head>
+        <% include ../../parts/head %>
+    </head>
+    <body class="container">
+
+    <header>
+    <% include ../../parts/header %>
+    </header>
+
+        <div class="container">
+            <h3>Add new city</h3>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <% if(notif){if(err) { %>
+                    <div class="alert alert-danger">
+                        <%= err.toString() %>
+                    </div>
+                    <% } else { %>
+                    <div class="alert alert-success">
+                        Successfully Added!
+                    </div>
+                    <% }} %>
+                </div>
+                <div class="col-lg-4 col-lg-offset-4">
+
+                    <form role="form" method="post" action=" ">
+                        <div class="form-group">
+                            <label for="user">City Name:</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <footer>
+    <% include ../../parts/footer %>
+    </footer>
+
+    </body>
+</html>

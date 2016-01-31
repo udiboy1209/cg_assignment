@@ -1,0 +1,137 @@
+<html lang="en">
+    <head>
+        <% include ../../parts/head %>
+
+        <script type='text/javascript'>
+            function loadCityOptions(ret){
+                if(ret.error)
+                    document.alert(ret.message);
+                else
+                    $.each(ret.data, function(i, val){
+                        $('#city').append($('<option/>',{ value: val.id, text: val.name }));
+                    });
+                $('#city').trigger('change');
+            }
+
+            function loadCollegeOptions(ret){
+                $('#college').empty();
+                if(ret.error)
+                    document.alert(ret.message);
+                else
+                    $.each(ret.data, function(i, val){
+                        $('#college').append($('<option/>',{ value: val.id, text: val.name }));
+                    });
+                $('#college').trigger('change');
+            }
+
+            function loadCLOptions(ret){
+                $('#cl').empty();
+                if(ret.error)
+                    document.alert(ret.message);
+                else
+                    $.each(ret.data, function(i, val){
+                        $('#cl').append($('<option>',{ value: val.mi_no, text: val.mi_no+' : '+val.name }));
+                    });
+            }
+        
+            function loadCurrentCL(ret){
+                if(ret.message=='Empty')
+                    $('#curr_cl').html('No CL set.');
+                else
+                    $('#curr_cl').html('<strong>CL:</strong> '+ret.data[0].name);
+
+            }
+        </script>
+    </head>
+    <body class="container">
+
+    <header>
+    <% include ../../parts/header %>
+    </header>
+
+        <div class="container">
+            <h3>Select/Remove CL</h3>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <% if(notif){if(err) { %>
+                    <div class="alert alert-danger">
+                        <%= err.toString() %>
+                    </div>
+                    <% } else { %>
+                    <div class="alert alert-success">
+                        Successfully Set CL!
+                    </div>
+                    <% }} %>
+                </div>
+                <div class="col-lg-4 col-lg-offset-4">
+
+                    <form role="form" method="post" action=" ">
+                        <div class="form-group">
+                            <label for='city'>Select city:</label>
+                            <select class='form-control' id='city' name='city'>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for='college'>Select college:</label>
+                            <select class='form-control' id='college' name='college'>
+                            </select>
+                        </div>
+                        <span id="curr_cl"></span>
+                        <input type='checkbox' name='remove' id='remove'>Remove</input>
+                        <div class="form-group">
+                            <label for='cl'>Select new CL:</label>
+                            <select class='form-control' id='cl' name='cl'>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-default">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <script type='text/javascript'>
+            $('#city').change(function(){
+                        var city_id = $('#city').val();
+                        $.ajax({
+                            dataType: 'json',
+                            url:'/api/college',
+                            data: {city:city_id},
+                            success: loadCollegeOptions
+                            });
+                    });
+
+            $('#college').change(function(){
+                        var college_id = $('#college').val();
+                        $.ajax({
+                            dataType: 'json',
+                            url:'/api/user',
+                            data: {college:college_id},
+                            success: loadCLOptions
+                            });
+                        $.ajax({
+                            dataType: 'json',
+                            url:'/api/cl',
+                            data: {college:college_id},
+                            success: loadCurrentCL
+                            });
+                    });
+            $('#remove').change(function(){
+                    console.log('remove changed');
+                        if($(this).prop('checked')){
+                            $('#cl').prop('disabled',true);
+                        } else {
+                            $('#cl').prop('disabled',false);
+                        }
+                    });
+        </script>
+        <script src="/api/city?callback=loadCityOptions"></script>
+
+    <footer>
+    <% include ../../parts/footer %>
+    </footer>
+
+    </body>
+</html>
+

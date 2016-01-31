@@ -1,0 +1,35 @@
+<h2>Total participants: <%= teams.length %></h2>
+<% teams.forEach(function(team){ %>
+    <h3>Team no. <%= team.team %></h3>
+    <table class="table table-striped table-bordered">
+        <theader><tr>
+            <th>Mi No</th>
+            <th>Name</th>
+            <th>College</th>
+        </tr></theader>
+        <tbody>
+            <% team.members.forEach(function(mem){ %>
+                <tr>
+                    <td><%= mem.mi_no %></td>
+                    <td><%= mem.name %></td>
+                    <td><%= mem.college_name %></td>
+            <% }); %>
+        </tbody>
+    </table>
+    <form role="form" method="get" action="./reg/add">
+        <div class="form-group">
+            <input class="form-control" type="text" id="mi_no" name="mi_no">
+            <input type="hidden" name="compi" value="<%= compi%>">
+            <input type="hidden" name="team" value="<%= team.team%>">
+            <button class="btn btn-default" for="mi_no">Add</button>
+        </div>
+    </form>
+    <form role="form" method="get" action="./reg/remove">
+        <div class="form-group">
+            <input class="form-control" type="text" id="mi_no" name="mi_no">
+            <input type="hidden" name="compi" value="<%= compi%>">
+            <button class="btn btn-default" for="mi_no">Remove</button>
+        </div>
+    </form>
+    <hr>
+<% }); %> 

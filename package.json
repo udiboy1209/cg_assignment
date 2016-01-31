@@ -1,0 +1,14 @@
+{
+    "name": "mi-server",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "^4.10.6",
+        "mysql": "^2.5.4",
+        "ejs": "^1.0.0",
+        "express-session": "^1.13.0",
+        "serve-favicon": "latest",
+        "express-mysql-session": "0.4.4",
+        "body-parser": "latest",
+        "nodemailer": "latest"
+    }
+}

@@ -1,0 +1,26 @@
+<html lang="en">
+    <head>
+        <% include parts/head %>
+    </head>
+    <body class="container">
+
+    <header>
+    <% include parts/header %>
+    </header>
+
+        <div class="container">
+            <h3><%= title %></h3>
+            <hr>
+            <% if(loggedIn){ %>
+                <% include pages/menu %>
+            <% } else { %>
+                <% include pages/login_form %>
+            <% } %>
+        </div>
+
+    <footer>
+    <% include parts/footer %>
+    </footer>
+
+    </body>
+</html>
